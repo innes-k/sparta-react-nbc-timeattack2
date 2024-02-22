@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sortTodos } from "../../features/todo/todoSlice";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
+import { getTodos } from "../../api/todo-api";
 
 const TodoController = () => {
   const [sortOrder, setSortOrder] = useState("asc");
@@ -10,6 +11,9 @@ const TodoController = () => {
   // TODO: Redux Toolkit의 전역 상태에서 todos 상태를 가져옵니다.
   // NOTE - 힌트:
   // - useSelector 훅을 사용해 todoSlice에서 정의한 todos를 가져옵니다.
+
+  const data = useSelector((state) => state.todo.todos);
+  console.log(data);
 
   const onChangeSortOrder = (e) => {
     const nextSortOrder = e.target.value;
@@ -22,6 +26,16 @@ const TodoController = () => {
     // TODO: Redux Toolkit Thunk 함수를 사용하여 서버로부터 todos를 가져와 전역 상태에 저장합니다.
     // NOTE - 힌트:
     // - 모든 todos를 가져오는 Thunk를 dispatch합니다.
+
+    // const fetchTodo = async () => {
+    //   await getTodos();
+    //   fetchTodo();
+    // };
+    const fetchTodo = async () => {
+      await getTodosThunk();
+    };
+
+    dispatch(fetchTodo());
   }, []);
 
   useEffect(() => {
