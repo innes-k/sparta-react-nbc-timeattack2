@@ -13,7 +13,6 @@ const TodoController = () => {
   // - useSelector 훅을 사용해 todoSlice에서 정의한 todos를 가져옵니다.
 
   const data = useSelector((state) => state.todo.todos);
-  console.log(data);
 
   const onChangeSortOrder = (e) => {
     const nextSortOrder = e.target.value;
@@ -27,15 +26,24 @@ const TodoController = () => {
     // NOTE - 힌트:
     // - 모든 todos를 가져오는 Thunk를 dispatch합니다.
 
+    // 1차시도
     // const fetchTodo = async () => {
     //   await getTodos();
     //   fetchTodo();
     // };
-    const fetchTodo = async () => {
-      await getTodosThunk();
-    };
 
-    dispatch(fetchTodo());
+    // 2차시도
+    // const fetchTodo = async () => {
+    //   await getTodosThunk();
+    // };
+    // dispatch(fetchTodo());
+
+    // 3차시도
+    const fetch = async () => {
+      const response = await axios.get("http://localhost:5003/todos");
+      return response.data;
+    };
+    fetch();
   }, []);
 
   useEffect(() => {
